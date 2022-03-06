@@ -1,0 +1,19 @@
+.commentTyping{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.commentTyping input{
+    flex-grow: 1;
+    background-color: #555;
+    color: #fff;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+.commentTyping svg{
+    cursor: pointer;
+    color: #555;
+    font-size: 20px;
+}

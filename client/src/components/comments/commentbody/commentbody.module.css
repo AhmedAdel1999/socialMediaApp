@@ -1,0 +1,44 @@
+.commentBody{
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.commentText{
+    margin-bottom: 0px;
+}
+.commentActions{
+    display: flex;
+    justify-content: space-between;
+}
+.commentActions>div{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative;
+}
+.commentActions>div svg{
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+.commentActions>div svg.activated{
+    color: crimson;
+}
+.commentActions>div span{
+    cursor: pointer;
+    text-transform: capitalize;
+}
+.commentRules{
+    background-color: #555;
+    color: #fff;
+    position: absolute;
+    right: calc(100% + 5px);
+    border-radius: 5px;
+    text-align: center;
+}
+.commentRules li{
+    padding: 2px 5px;
+    cursor: pointer;
+}

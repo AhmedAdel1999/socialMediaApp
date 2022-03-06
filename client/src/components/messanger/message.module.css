@@ -1,0 +1,47 @@
+.message{
+    display: flex;
+    width: 100%;
+}
+.msgSender{
+    justify-content: flex-end;
+}
+.msgReciever{
+    justify-content: flex-start;
+}
+.msgReciever>div{
+    direction: rtl;
+}
+.msgContent{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    color: #fff;
+    max-width: 100%;
+}
+.profImg{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+.msgText{
+    padding: 2px 5px;
+    border-radius: 12px;
+    background-color: rgb(109, 35, 247);
+    margin: 0px;
+    max-width: inherit;
+    white-space: normal;
+    word-wrap: break-word;
+}
+.msgReciever .msgText{
+    background-color: #555;
+}
+.msgImg{
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+}
+.msgDate{
+    color: #fff;
+    width: fit-content;
+}

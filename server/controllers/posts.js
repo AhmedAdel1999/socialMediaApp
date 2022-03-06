@@ -1,0 +1,554 @@
+const { validationResult } = require('express-validator');
+
+const Post = require('../models/Post');
+const User = require('../models/User');
+const Profile = require('../models/Profile');
+const SavedPost = require('../models/Saved');
+
+// Get all Post.
+const getAllPost = async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ date: -1 });
+        res.json(posts);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Get Single Post
+const getPostById = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(400).json({ msg: 'Post not found' });
+        }
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Post not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Get All Post of User
+const getAllPostByUser = async (req, res) => {
+    try {
+        const posts = await Post.find({ user: req.params.userId }).sort({
+            date: -1,
+        });
+
+        res.json(posts);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Post a Post
+const postPost = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array(),
+        });
+    }
+
+    const { text, imgs } = req.body;
+
+    try {
+        const { username } = await User.findById(req.user.id);
+        const { name, profileImg } = await Profile.findOne({
+            user: req.user.id,
+        });
+
+        const newPost = new Post({
+            user: req.user.id,
+            text,
+            imgs: imgs ? imgs : '',
+            name,
+            username,
+            profileImage: profileImg,
+        });
+
+        const post = await newPost.save();
+
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Update a Post
+const updatePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) return res.status(400).json({ msg: 'Post Not found' });
+
+        if (post.user.toString() !== req.user.id)
+            return res.status(400).json({ msg: 'Post Not found' });
+
+        const { text, imgs } = req.body;
+
+        post.text = text;
+        post.imgs = imgs;
+
+        const updatedPost = await post.save();
+
+        res.json(updatedPost);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Post not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Delete Post
+const deletePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) return res.status(400).json({ msg: 'Post Not found' });
+
+        if (post.user.toString() !== req.user.id)
+            return res.status(401).json({ msg: 'User not authorized' });
+
+        await post.remove();
+
+        res.json({ msg: 'Post Removed Successfully' });
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Post not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Like a Post
+const likePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) return res.status(404).json({ msg: 'Post not found' });
+
+        // check if the post has already been liked
+        if (
+            post.likes.filter((like) => like.user.toString() === req.user.id)
+                .length > 0
+        )
+            return res.status(400).json({
+                errors: [
+                    {
+                        error: 'Post already liked!',
+                    },
+                ],
+            });
+
+        post.likes.unshift({ user: req.user.id });
+        await post.save();
+
+        res.json(post);
+    } catch (error) {
+        console.error(error.message);
+
+        if (error.kind === 'ObjectId')
+            return res.status(404).json({ msg: 'Post not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Unlike a Post
+const unlikePost = async (req, res) => {
+    try {
+        let post = await Post.findById(req.params.id);
+
+        if (!post) return res.status(404).json({ msg: 'Post not found' });
+
+        // check if the post has already been liked
+        if (
+            post.likes.filter((like) => like.user.toString() === req.user.id)
+                .length === 0
+        )
+            return res.status(400).json({
+                errors: [
+                    {
+                        error: 'Post has not yet been liked!',
+                    },
+                ],
+            });
+
+        post.likes = post.likes.filter(
+            (like) => like.user.toString() !== req.user.id
+        );
+        await post.save();
+
+        res.json(post);
+    } catch (error) {
+        console.error(error.message);
+
+        if (error.kind === 'ObjectId')
+            return res.status(404).json({ msg: 'Page not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Post Comment
+const postComment = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        let post = await Post.findById(req.params.id);
+        const user = await User.findById(req.user.id);
+        const profile = await Profile.findOne({ user });
+        const { tag, reply} = req.body
+        if (!post)
+            return res.status(404).json({
+                msg: 'Post Not Found',
+        });
+        const testfun = () =>{
+            let test=false
+            for(let i=0; i<post.comments.length; i++){
+                if(post.comments[i]._id==reply){
+                    test=true
+                    break;
+               }else{
+                   test=false; 
+               }
+            }
+            return test
+        }
+        if(post.comments.length>0){
+            if(reply){
+                if(testfun()===false){
+                    return res.status(400).json({msg: "This comment does not exist."})
+                }
+            }
+        }
+        const newComment = {
+            user: req.user.id,
+            text: req.body.text,
+            name: profile.name,
+            tag:tag,
+            reply:reply,
+            username: user.username,
+            profileImage: profile.profileImg,
+            likes: [],
+            date: Date.now(),
+        };
+
+        post.comments = [...post.comments,newComment];
+        await post.save();
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Comment not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Update Comment
+const updateComment = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        let post = await Post.findById(req.params.id);
+        let commentId = req.params.commentId;
+        let text = req.body.text;
+        post.comments.forEach((x)=>{
+            if(x._id==commentId){
+                x.text=text
+            }
+        })
+        await post.save();
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Comment not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Delete Comment
+const deleteComment = async (req, res) => {
+    try {
+        var post = await Post.findById(req.params.id);
+        if (!post)
+            return res.status(404).json({
+                msg: 'Post Not Found',
+            });
+        var comment = post.comments.filter(
+            (comment) => comment.id === req.params.commentId
+        );
+
+        if (!comment)
+            return res.status(404).json({
+                msg: 'Comment Not Found',
+            });
+
+        comment = comment[0];
+
+        if (comment.user.toString() !== req.user.id)
+            return res.status(401).json({
+                msg: 'Not Authorized',
+            });
+
+        post.comments= post.comments.filter((ele)=>{
+            if(ele.reply&&ele.reply==req.params.commentId){
+                return ele.reply!=req.params.commentId
+            }else{
+                return ele.id !== req.params.commentId
+            }
+        })
+
+        await post.save();
+
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Comment not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Like Comment
+const likeComment = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        const id = req.params.commentId
+        const handelIndex = () =>{
+            let index;
+            post.comments.forEach((x,ind)=>{
+                if(x._id==id){index=ind}
+            })
+            return index
+        }
+        const index = handelIndex()
+        if (!post) return res.status(404).json({ msg: 'Post not found' });
+
+        // check if the post has already been liked
+        if (
+            post.comments[index].likes.filter((like) => like.user.toString() === req.user.id)
+                .length > 0
+        )
+            return res.status(400).json({
+                errors: [
+                    {
+                        error: 'Comment already liked!',
+                    },
+                ],
+            });
+
+        post.comments[index].likes.unshift({ user: req.user.id });
+        await post.save();
+
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({ msg: 'Comment not found' });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Unlike Comment
+const unlikeComment = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        const id = req.params.commentId
+        const handelIndex = () =>{
+            let index;
+            post.comments.forEach((x,ind)=>{
+                if(x._id==id){index=ind}
+            })
+            return index
+        }
+        const index = handelIndex()
+        if (!post) return res.status(404).json({ msg: 'Post not found' });
+
+        // check if the post has already been liked
+        if (
+            post.comments[index].likes.filter((like) => like.user.toString() === req.user.id)
+                .length === 0
+        )
+            return res.status(400).json({
+                errors: [
+                    {
+                        error: 'Comment has not yet been liked!',
+                    },
+                ],
+            });
+
+        post.comments[index].likes = post.comments[index].likes.filter(
+            (like) => like.user.toString() !== req.user.id
+        );
+        await post.save();
+
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+        if (error.kind == 'ObjectId')
+            return res.status(400).json({
+                errors: [{ msg: 'Comment not found' }],
+            });
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Get Saved Post
+const savedPost = async (req, res) => {
+    try {
+        let savedPost = await SavedPost.findOne({ user: req.user.id });
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({
+                errors: [
+                    {
+                        msg: 'User Not Found',
+                    },
+                ],
+            });
+        }
+
+        if (!savedPost) {
+            savedPost = new SavedPost({
+                user: req.user.id,
+                savedPosts: [],
+            });
+            await savedPost.save();
+        }
+
+        res.json(savedPost);
+    } catch (error) {
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+// Save Post
+const savePost = async (req, res) => {
+    try {
+        let savedPosts = await SavedPost.findOne({ user: req.user.id });
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({
+                errors: [
+                    {
+                        msg: 'User Not Found',
+                    },
+                ],
+            });
+        }
+
+        if (!savedPosts) {
+            savedPosts = new SavedPost({
+                user: req.user.id,
+                savedPosts: [],
+            });
+            await savedPosts.save();
+        }
+
+        const post = await Post.findById(req.params.id);
+        if (!post)
+            return res.status(404).json({
+                errors: [{ msg: 'Post Not Found' }],
+            });
+
+        if (
+            savedPosts.savedPosts.filter(
+                (post) => post._id.toString() === req.params.id
+            ).length > 0
+        ) {
+            return res.status(400).json({
+                errors: [
+                    {
+                        msg: 'Already Added',
+                    },
+                ],
+            });
+        }
+
+        savedPosts.savedPosts.unshift(req.params.id);
+        await savedPosts.save();
+        res.json(savedPosts);
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+const removeSavedPost = async (req, res) => {
+    try {
+        const savedPosts1 = await SavedPost.findOne({ user: req.user.id });
+        if (!savedPosts1)
+            return res.status(404).json({
+                errors: [{ msg: 'Saved Posts Not Found' }],
+            });
+
+        if (
+            savedPosts1.savedPosts.filter(
+                (post) => post._id.toString() === req.params.id
+            ).length === 0
+        ) {
+            console.log('error');
+            return res.status(400).json({
+                errors: [
+                    {
+                        msg: "Doesn't Exists",
+                    },
+                ],
+            });
+        }
+
+        savedPosts1.savedPosts = savedPosts1.savedPosts.filter(
+            (post) => post._id.toString() !== req.params.id
+        );
+
+        await savedPosts1.save();
+        res.json(savedPosts1);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Server Error' });
+    }
+};
+
+module.exports = {
+    removeSavedPost,
+    savePost,
+    savedPost,
+    unlikeComment,
+    likeComment,
+    deleteComment,
+    updateComment,
+    postComment,
+    unlikePost,
+    likePost,
+    deletePost,
+    deletePost,
+    postPost,
+    getAllPostByUser,
+    getPostById,
+    getAllPost,
+    updatePost,
+};

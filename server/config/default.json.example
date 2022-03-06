@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://facebookClone:facebookClone123@cluster0.mqfwr.mongodb.net/facebookClone?retryWrites=true&w=majority",
+    "jwtSecret": "facebookClonesecretjwt"
+}

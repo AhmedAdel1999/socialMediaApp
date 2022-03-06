@@ -1,0 +1,43 @@
+.profileItem{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.profileInfo{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.profileInfo a img{
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+}
+.infoDetails a{
+    text-decoration: none;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff !important;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.infoDetails a span:last-of-type{
+    color: #555;
+    transform: translateY(-3px);
+    font-weight: normal;
+}
+.btns button{
+    background-color: red;
+    color: #000;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+}

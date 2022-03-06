@@ -1,0 +1,53 @@
+.profileSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+.profileInfoSec{
+    width: 100%;
+    min-width: 300px;
+    max-width: 1100px;
+    display: flex;
+    justify-content: flex-start;
+    background-color: #1F1F23;
+    border-radius: 5px;
+    padding: 10px;
+}
+.profilePosts{
+    width: 100%;
+    min-width: 300px;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.postsOrSaved{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.postsRoutes {
+    display: flex;
+    gap: 10px;
+}
+.postsRoutes button{
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    background-color: #333;
+    color: #fff;
+}
+.notFoundPst{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 18px;
+}
+.notFoundPst p{
+    margin: 0px;
+}

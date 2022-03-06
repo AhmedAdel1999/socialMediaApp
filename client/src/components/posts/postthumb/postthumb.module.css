@@ -1,0 +1,37 @@
+.postThumb{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.thumbActions{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.thumbActionsIcons{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.thumbActionsIcons a{
+    text-decoration: none;
+}
+.thumbActionsIcons svg{
+    font-size: 20px;
+    cursor: pointer;
+    color: #fff;
+}
+.thumbActionsIcons svg.activated{
+    color: crimson;
+}
+.thumbActionsResults{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #fff;
+}
+.thumbActionsResults p{
+    margin: 0px;
+}

@@ -1,0 +1,88 @@
+.auth{
+    display: flex;
+    flex-basis: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #18181B
+}
+.authContent{
+    width: 320px;
+    transform: translateY(-60px);
+}
+.authHeader{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: crimson;
+}
+.authHeader span{
+    display: block;
+    text-align: center;
+    font-weight: bold;
+}
+.authHeader span:first-of-type{
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    background-color: crimson;
+    margin-bottom: 5px;
+}
+.authHeader span svg{
+    font-size: 18px;
+}
+.formData{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.field input{
+    display: block;
+    width: 100%;
+    padding: 7px 10px;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    background-color: #333;
+    box-shadow: 0 0 0 50px #333 inset;
+    color: #fff;
+}
+
+.field label{
+    color: #fff;
+    text-transform: capitalize
+}
+.field span{
+    color: crimson;
+    text-transform: capitalize
+}
+.submit{
+    display: block;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    text-align: center;
+    padding: 5px 0px;
+    background-color: crimson;
+    color: #fff;
+    font-weight: bold;
+}
+.redirect{
+    margin: 0px;
+    font-weight: bold;
+    color: #fff;
+}
+.redirect a{
+    text-decoration: none;
+    margin-left: 5px;
+    color: crimson !important;
+}

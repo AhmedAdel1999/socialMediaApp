@@ -1,0 +1,126 @@
+.rightSide{
+    width: 100%;
+    min-width: 300px;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    background-color: #1F1F23;
+    border-radius: 5px;
+    overflow: hidden;
+}
+@media (min-width:767px){
+    .rightSide{
+        max-width: 850px;
+    }
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    background-color: #333;
+    height: 60px;
+}
+.headProfile{
+    display: flex;
+    gap: 5px;
+}
+.headProfile a{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    text-transform: capitalize;
+    color: #fff !important;
+}
+.headProfile a img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+.header svg{
+    color: crimson;
+    cursor: pointer;
+    font-size: 18px;
+}
+.coveBody{
+    flex-basis: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+.imgsUploades{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: inherit;
+    min-height: 80px;
+    overflow-x: auto;
+    border-top: 1px solid #ddd;
+}
+.imgsUploades::-webkit-scrollbar {
+    height: 7px;
+}
+.imgItem{
+    width: 60px;
+    min-width: 60px;
+    height: 70px;
+    position: relative;
+}
+.imgItem img{
+    width: 100%;
+    height: 100%;
+}
+.imgItem svg{
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    color: crimson;
+    font-size: 16px;
+    cursor: pointer;
+}
+.convFooter{
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    background-color: #333;
+}
+.writeMsg{
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 10px;
+}
+.writeMsg input{
+    flex-grow: 1;
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #555;
+}
+.writeMsg svg{
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+.writeMsg>svg{
+    color: #555;
+}
+.writeMsg>svg.active{
+    color: #fff;
+}
+.loader{
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgb(106, 47, 245);
+    font-size: 25px;
+}
+.loader svg{
+    font-size: 60px;
+}
