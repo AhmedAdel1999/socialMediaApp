@@ -1,0 +1,166 @@
+.navbarSection{
+    flex-basis: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px 25px;
+    padding: 10px 25px;
+    border-radius: 5px;
+    background-color: #18181B;
+    color: #fff;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 1);
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+}
+.logo,.searchbox,.routes{
+    height: 40px;
+}
+.logo{
+    min-width: fit-content;
+    max-width: fit-content;
+}
+.toggler{
+    font-size: 25px;
+    cursor: pointer;
+}
+.searchbox{
+    position: relative;
+    max-width: 500px;
+    flex-grow: 1;
+}
+.logo a{
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  display: block;
+  height: inherit;
+  line-height: 40px;
+  text-align: center;
+  color: #fff !important;
+}
+
+.searchbox input{
+    display: block;
+    width: 100%;
+    max-width: inherit;
+    height: 100%;
+    margin: 0px auto;
+    outline: none;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    background-color:  #555;
+}
+.searchResult{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    background-color: #18181B;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    position: absolute;
+}
+
+.routes{
+    list-style-type: none;
+    flex-wrap: wrap;
+    gap: 0px 20px;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.routes li a{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.routes li a>svg{
+    font-size: 25px;
+    color: #fff;
+}
+.routes .profileIcon{
+    position: relative;
+}
+.routes .profileIcon .profileImg{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+.routes li div>img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+@media(max-width:992px){
+    .routes{
+        min-width: 300px;
+        max-width: 400px;
+        width: 100%;
+        height:calc(100vh - 62px);
+        border-radius: 5px;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px 0px !important;
+        background-color: #1F1F23;
+        box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 1);
+        transition: right 0.4s ease;
+        position: absolute;
+        top: 60px;
+        right: calc(-200% - 25px);
+        gap: 20px;
+    }
+    .show{
+        right: 0px;
+    }
+    .profileImg{
+        justify-content: center;
+    }
+    .dropdown{
+        left: 45%;
+    }
+    .routes li a{
+        align-items: flex-start;
+        justify-content: center;
+    }
+    .searchBar{
+        padding: 0px 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    .searchBar input{
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center;
+    }
+    .searchResult{
+        position: relative;
+        border-radius: 5px;
+    }
+}
+.dropdown{
+    list-style-type: none;
+    background-color: #1F1F23;
+    border-radius: 2px;
+    padding: 0px;
+    position: absolute;
+    z-index: 4;
+}
+.dropdown li a{
+    display: block;
+    width: 100%;
+    padding: 5px 20px;
+    text-decoration: none;
+    color: #fff;
+}

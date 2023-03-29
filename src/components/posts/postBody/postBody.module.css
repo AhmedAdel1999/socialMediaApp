@@ -1,0 +1,52 @@
+.postText{
+    color: #fff;
+    display: -webkit-box;
+}
+.postImgs{
+    width: 100%;
+    height: 350px;
+    margin-bottom: 7px;
+}
+.postImgs>div{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px; 
+    overflow: hidden;
+}
+.postImgs>div div{
+    height: 100%;
+}
+.postImgs>div img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+.postImg{
+    width: 100%;
+    height: inherit
+}
+.postImg img{
+    width: 100%;
+    height: inherit
+}
+.postImgs>div button:first-of-type{
+    position: absolute;
+    left: 10px;
+    z-index: 10;
+}
+.postImgs>div button:last-of-type{
+    position: absolute;
+    right: 10px;
+    z-index: 10;
+}
+.postImgs>div button:first-of-type::before,
+.postImgs>div button:last-of-type::before{
+    content: "<";
+    font-size: 30px;
+    font-weight: bolder;
+}
+.postImgs>div button:last-of-type::before{
+    content: ">";
+}
+

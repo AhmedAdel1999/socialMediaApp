@@ -1,0 +1,44 @@
+.profileItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.profileInfo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.profileImg{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+.profileImg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.infoDetails a{
+    display: flex;
+    flex-direction: column;
+    text-transform: capitalize;
+    text-decoration: none;
+    color: #fff !important;
+}
+.actions{
+    display: flex;
+    gap: 5px 10px;
+}
+.actions button{
+    outline: none;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-transform: capitalize;
+}

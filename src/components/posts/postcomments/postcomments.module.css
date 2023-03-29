@@ -1,0 +1,12 @@
+.postComments{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #333;
+    padding: 5px;
+    border-radius: 5px;
+}
+.postComments>span{
+    cursor: pointer;
+    color: crimson;
+}

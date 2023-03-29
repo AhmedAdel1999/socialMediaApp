@@ -1,0 +1,55 @@
+.profileHeader{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+}
+.profileInfo{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.profileImg{
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+.infoDetails h4,
+.infoDetails p{
+    margin-bottom: 0px;
+    text-transform: capitalize;
+}
+.routesAndActions{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0px 60px;
+}
+.routes{
+    display: flex;
+    gap: 10px;
+}
+.routes a{
+    text-transform: capitalize;
+    text-decoration: none;
+    color: #fff !important;
+}
+.actions{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px 10px;
+}
+.actions button{
+    padding: 5px 15px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.actions button a{
+    display: block;
+    text-decoration: none;
+    color: #fff !important;
+}
